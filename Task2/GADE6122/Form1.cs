@@ -115,6 +115,17 @@ namespace GADE6122
                 int y = target.getY();
 
                 int distance = (Math.Abs(this.getX() - x)) + Math.Abs((this.getY() - y));
+                if (this is Mage)// Check if works properly
+                {
+                    if ((Math.Abs(this.getX() - x) == 2) && Math.Abs((this.getY() - y)) == 1)
+                    {
+                        distance = 1;
+                    }
+                    else if ((Math.Abs(this.getX() - x) == 1) && Math.Abs((this.getY() - y)) == 2)
+                    {
+                        distance = 1;
+                    }
+                }
 
                 return distance;
             }
@@ -214,7 +225,29 @@ namespace GADE6122
             }
         }
 
-        //Question 2.6
+        public class Mage : Enemy // Task2 Question 2.3
+        {
+            public Mage(int x, int y) : base(x, y, 5, 5, 'M')
+            {
+
+            }
+
+            public override movementEnum ReturnMove(movementEnum move)
+            {
+                return 0;
+            }
+
+            public override bool CheckRange(Character target)
+            {
+                return base.CheckRange(target);
+            }
+
+            public override string ToString()
+            {
+                return "Mage at [" + x + "," + y + "] (" + damage + ")"; // double check 
+            }
+
+        }
         public class Hero : Character
         {
             public Hero(int x, int y, int hp) : base(x, y, 'H')//Constructor
@@ -280,8 +313,6 @@ namespace GADE6122
 
         }
 
-        //Question 3
-        //Question 3.1
         public class Map
         {
 
@@ -357,7 +388,13 @@ namespace GADE6122
                     case Tile.tiletype.Hero:
                         return new Hero(uniqueX, uniqueY, 10);
                     case Tile.tiletype.Enemy:
-                        return new Goblin(uniqueX, uniqueY);
+                        int rand = randomNum.Next(2);
+                        switch (rand) // Randomise enemy type
+                        {
+                            case 0: return new Goblin(uniqueX, uniqueY);
+                            case 1: return new Mage(uniqueX, uniqueY);
+                            default: return new EmptyTile(uniqueX, uniqueY);
+                        }
                     default: return new EmptyTile(uniqueX, uniqueY);
                 }
             }
