@@ -293,7 +293,7 @@ namespace GADE6122
         //Qustion 2.2.2
         public class Gold : Items
         {
-            private int GoldNum;
+            private int goldNum;
             private Random randomGoldNum = new Random();
 
             public Gold(int x, int y, int NumGold ) : base(x, y) //Constructor
@@ -304,7 +304,7 @@ namespace GADE6122
 
             public int getGoldNum()
             {
-                return this.GoldNum;
+                return this.goldNum;
             }
             public override string ToString()
             {
@@ -322,9 +322,12 @@ namespace GADE6122
             private int mapWidth;
             private int mapHeight;
             private Random randomNum = new Random();
-
-            public Map(int wMin, int wMax, int hMin, int hMax, int enemyNum)
+            private int gold;
+            private Gold[] goldArray;
+            public Map(int wMin, int wMax, int hMin, int hMax, int enemyNum, int goldNum)
             {
+                
+
                 mapWidth = randomNum.Next(wMin, wMax) + 2;
                 mapHeight = randomNum.Next(hMin, hMax) + 2;
 
@@ -340,6 +343,14 @@ namespace GADE6122
                 {
                     enemies[i] = (Enemy)Create(Tile.tiletype.Enemy);
                     mapTiles[enemies[i].getX(), enemies[i].getY()] = enemies[i];
+                }
+
+                gold = goldNum;
+                goldArray = new Gold[goldNum];
+                for (int i = 0; i < goldNum; i++)
+                {
+                    goldArray[i] = (Gold)Create(Tile.tiletype.Gold);
+                    mapTiles[goldArray[i].getX(), goldArray[i].getY()] = goldArray[i];
                 }
 
                 UpdateVision();
@@ -395,6 +406,8 @@ namespace GADE6122
                             case 1: return new Mage(uniqueX, uniqueY);
                             default: return new EmptyTile(uniqueX, uniqueY);
                         }
+                    case Tile.tiletype.Gold:
+                        return new Gold(uniqueX, uniqueY, gold);
                     default: return new EmptyTile(uniqueX, uniqueY);
                 }
             }
@@ -536,11 +549,12 @@ namespace GADE6122
             private const char goblinChar = 'G';
             private const char emptyChar = '#';
             private const char obstacleChar = 'X';
+            private const char goldchar = '$';
             private Map map;
 
-            public GameEngine(int widthMin, int widthMax, int heightMin, int heightMax, int enemyNum) // constructor
+            public GameEngine(int widthMin, int widthMax, int heightMin, int heightMax, int enemyNum, int goldNum) // constructor
             {
-                map = new Map(widthMin, widthMax, heightMin, heightMax, enemyNum);
+                map = new Map(widthMin, widthMax, heightMin, heightMax, enemyNum, goldNum);
             }
 
             public bool MovePlayer(Character.movementEnum moveType)
@@ -592,6 +606,10 @@ namespace GADE6122
                 {
                     for (int y = 0; y < map.getHeight(); y++)
                     {
+                        if (map.getMapTiles(x,y) is Gold)
+                        {
+                            output += '$';
+                        }
                         if (map.getMapTiles(x, y) is Character)
                         {
                             Character temp = (Character)map.getMapTiles(x, y);
@@ -632,7 +650,7 @@ namespace GADE6122
         public Form1()
         {
             InitializeComponent();
-            game = new GameEngine(10, 20, 10, 20, 5);
+            game = new GameEngine(10, 20, 10, 20, 5, 3);
             updateForm();
         }
 

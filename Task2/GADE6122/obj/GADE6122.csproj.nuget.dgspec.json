@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Khyujo\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj": {}
+    "C:\\Users\\Thoriso Tlale\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Khyujo\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj": {
+    "C:\\Users\\Thoriso Tlale\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Khyujo\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj",
+        "projectUniqueName": "C:\\Users\\Thoriso Tlale\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj",
         "projectName": "GADE6122",
-        "projectPath": "C:\\Users\\Khyujo\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj",
-        "packagesPath": "C:\\Users\\Khyujo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Khyujo\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\obj\\",
+        "projectPath": "C:\\Users\\Thoriso Tlale\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\GADE6122.csproj",
+        "packagesPath": "C:\\Users\\Thoriso Tlale\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thoriso Tlale\\Source\\Repos\\TinyKaiju\\Task-2\\Task2\\GADE6122\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Khyujo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Thoriso Tlale\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -61,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
