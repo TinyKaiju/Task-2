@@ -230,7 +230,7 @@ namespace GADE6122
             }
             public override string ToString()
             {
-                return ("Player Stats:\n HP: " + hp + "/" + maxHp + "\n Damage: " + damage + "\n [" + getX() + "," + getY() + "]");
+                return ("Player Stats:\n HP: " + hp + "/" + maxHp + "\n Damage: " + damage + "\n Gold: " /* + Gold */ + "\n [" + getX() + "," + getY() + "]");
             }
 
             public override bool CheckRange(Character target)
@@ -242,6 +242,42 @@ namespace GADE6122
             {
                 target.damaged(this.damage);
             }
+        }
+
+        //Question 2.2.1
+        public abstract class Items : Tile
+        {
+            public Items(int x, int y) : base(x, y)
+            {
+                this.type = tiletype.Gold;
+            
+            }
+            public abstract string ToString();
+            protected string ItemType;
+
+        }
+
+        //Qustion 2.2.2
+        public class Gold : Items
+        {
+            private int GoldNum;
+            private Random randomGoldNum = new Random();
+
+            public Gold(int x, int y, int NumGold ) : base(x, y) //Constructor
+            {
+                int RanGold = randomGoldNum.Next(1, 5);
+                this.ItemType = "Gold";
+            }
+
+            public int getGoldNum()
+            {
+                return this.GoldNum;
+            }
+            public override string ToString()
+            {
+                return this.ItemType;
+            }
+
         }
 
         //Question 3
@@ -552,6 +588,8 @@ namespace GADE6122
             {
                 return map.tryAttack(target);
             }
+
+
         }
         GameEngine game;
         public Form1()
