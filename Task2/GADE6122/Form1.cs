@@ -712,9 +712,10 @@ namespace GADE6122
 
             }
 
-
-
-
+            public Map getMap()
+            {
+                return this.map;
+            }
             public string getPlayerInfo()
             {
                 return map.getPlayerInfo();
@@ -780,6 +781,7 @@ namespace GADE6122
                 map.tryEnemyAttack();
             }
 
+            
         }
         GameEngine game;
         public Form1()
