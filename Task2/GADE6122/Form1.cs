@@ -60,7 +60,7 @@ namespace GADE6122
             protected int maxHp;
             protected int damage;
             protected bool cornerVision = false;
-            protected Tile[] visionTiles = new Tile[4]; //In ArrayVision = North, East, South, West
+            protected Tile[] visionTiles; //In ArrayVision = North, East, South, West
             public enum movementEnum { None, Up, Down, Left, Right };
 
             private char symbol;
@@ -88,14 +88,6 @@ namespace GADE6122
             public Character(int a, int b, char symbol) : base(a, b) // constructor
             {
                 this.symbol = symbol;
-                if (cornerVision == false)
-                {
-                    visionTiles = new Tile[4];
-                }
-                else
-                {
-                    visionTiles = new Tile[8];
-                }
             }
 
             public virtual void Attack(Character target)
@@ -175,14 +167,14 @@ namespace GADE6122
                 if (cornerVision)
                 {
                     this.visionTiles[4] = map[x - 1, y - 1];
-                    this.visionTiles[5] = map[x - 1, y + 1];
-                    this.visionTiles[6] = map[x + 1, y - 1];
+                    this.visionTiles[5] = map[x + 1, y - 1];
+                    this.visionTiles[6] = map[x - 1, y + 1];
                     this.visionTiles[7] = map[x + 1, y + 1];
                 }
 
 
             }
-            public void pickup(Item i)
+            public void Pickup(Item i)
             {
                 
                 if (i is Gold)
@@ -231,7 +223,9 @@ namespace GADE6122
         public class Goblin : Enemy
         {
             public Goblin(int x, int y) : base(x, y, 1, 10, 'G')//Constructor
-            { }
+            {
+                this.visionTiles = new Tile[4];
+            }
             public override movementEnum ReturnMove(movementEnum move)
             {
                 int possible = 4;
@@ -286,8 +280,9 @@ namespace GADE6122
         {
             public Mage(int x, int y) : base(x, y, 5, 5, 'M')
             {
+                this.visionTiles = new Tile[8];
                 friendlyFire = true;
-                visionTiles = new Tile[8];
+                this.cornerVision = true;
             }
 
             public override movementEnum ReturnMove(movementEnum move)
@@ -310,6 +305,7 @@ namespace GADE6122
         {
             public Hero(int x, int y, int hp) : base(x, y, 'H')//Constructor
             {
+                this.visionTiles = new Tile[4];
                 this.damage = 2;
                 this.maxHp = hp;
                 this.hp = hp;
@@ -511,7 +507,7 @@ namespace GADE6122
             }
             public void Move(Character.movementEnum move, Item pick)
             {
-                player.pickup(pick);
+                player.Pickup(pick);
                 int oldX = getPlayerX();
                 int oldY = getPlayerY();
                 player.Move(move);
@@ -576,16 +572,13 @@ namespace GADE6122
                     attacker = enemies[e];
                     for (int i = 0; i < attacker.getVisionSize(); i++)
                     {
-                        if (attacker.getFriendyFire())
+                        if ((attacker.getFriendyFire()) && (attacker.getVisionTile(i) is Enemy))
                         {
-                            //switch (attackerattacker.getVisionTile(i).getType)
-                            //{
-                            //    case Hero: player player.damaged(attacker.getDamage());
-                            //        break;
-                            //    case Enemy: 
-                            //}
+                            Tile temp = attacker.getVisionTile(i);
+                            Enemy victim = (Enemy)mapTiles[temp.getX(), temp.getY()];
+                            
                         }
-                        if (attacker.getVisionTile(i) is Hero)
+                        else if (attacker.getVisionTile(i) is Hero)
                         {
                             player.damaged(attacker.getDamage());
                         }

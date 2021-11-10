@@ -203,6 +203,7 @@ namespace GADE6122
             // 
             this.rtbMap.BackColor = System.Drawing.Color.GhostWhite;
             this.rtbMap.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbMap.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.rtbMap.Location = new System.Drawing.Point(21, 36);
             this.rtbMap.Name = "rtbMap";
             this.rtbMap.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;

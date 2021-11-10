@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Khyujo\\Source\\Repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj": {}
+    "C:\\Users\\Khyujo\\source\\repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Khyujo\\Source\\Repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj": {
+    "C:\\Users\\Khyujo\\source\\repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Khyujo\\Source\\Repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj",
+        "projectUniqueName": "C:\\Users\\Khyujo\\source\\repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj",
         "projectName": "GADE6122",
-        "projectPath": "C:\\Users\\Khyujo\\Source\\Repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj",
+        "projectPath": "C:\\Users\\Khyujo\\source\\repos\\Task-2.2\\Task2\\GADE6122\\GADE6122.csproj",
         "packagesPath": "C:\\Users\\Khyujo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Khyujo\\Source\\Repos\\Task-2.2\\Task2\\GADE6122\\obj\\",
+        "outputPath": "C:\\Users\\Khyujo\\source\\repos\\Task-2.2\\Task2\\GADE6122\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
