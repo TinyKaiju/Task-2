@@ -184,13 +184,15 @@ namespace GADE6122
             }
             public void pickup(Item i)
             {
-                Gold goldnum;
-                if ((this.x == i.getX()) && (this.y == i.getY()))
+                
+                if (i is Gold)
                 {
+                    Gold goldnum;
                     goldnum = (Gold)i;
-                    goldpurse = goldpurse + goldnum.getGoldAmount();
-
+                    goldpurse += goldnum.getGoldAmount();
                 }
+
+                
             }
             public Tile getVisionTile(int i)
             {
@@ -341,7 +343,7 @@ namespace GADE6122
                 this.type = tiletype.Gold;
 
             }
-            public abstract string ToString();
+            public abstract new string ToString();
             protected string ItemType;
 
         }
@@ -507,6 +509,18 @@ namespace GADE6122
 
                 UpdateVision();
             }
+            public void Move(Character.movementEnum move, Item pick)
+            {
+                player.pickup(pick);
+                int oldX = getPlayerX();
+                int oldY = getPlayerY();
+                player.Move(move);
+
+                mapTiles[oldX, oldY] = new EmptyTile(oldX, oldY);
+                mapTiles[getPlayerX(), getPlayerY()] = player;
+
+                UpdateVision();
+            }
 
             public List<Enemy> getTargetEnemies() // Creates list of enemies in range of attack
             {
@@ -632,7 +646,17 @@ namespace GADE6122
                 }
             }
 
-
+            public Item getItemAtPosition(int x, int y)
+            {
+                if (mapTiles[x, y] is Item)
+                {
+                    return (Item)mapTiles[x, y];
+                }
+                else
+                {
+                    return null;
+                }
+            }
 
         }
 
@@ -671,9 +695,19 @@ namespace GADE6122
                         break;
                 }
 
-                if (map.getMapTiles(x, y) is EmptyTile || map.getMapTiles(x, y) is Gold) // player can move
+                if (map.getMapTiles(x, y) is EmptyTile || map.getMapTiles(x, y) is Item) // player can move
                 {
-                    map.Move(moveType);
+                    Item tempItem = map.getItemAtPosition(x, y);
+
+                    if (tempItem != null)
+                    {
+                        map.Move(moveType, tempItem);
+                    }
+                    else
+                    {
+                        map.Move(moveType);
+                    }
+                    
                     moveEnemy();
                     map.tryEnemyAttack();
                     return true;
@@ -745,7 +779,7 @@ namespace GADE6122
             public string tryAttack(Enemy target)
             {
                 return map.tryAttack(target);
-                map.tryEnemyAttack();
+                //map.tryEnemyAttack();
             }
 
             public void EnemiesAtk()
