@@ -29,7 +29,7 @@ namespace GADE6122
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.Save = new System.Windows.Forms.Button();
             this.lblOutput = new System.Windows.Forms.Label();
             this.MemoPlayerInfo = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -43,18 +43,19 @@ namespace GADE6122
             this.btnLeft = new System.Windows.Forms.Button();
             this.btnRight = new System.Windows.Forms.Button();
             this.rtbMap = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // Save
             // 
-            this.button1.Location = new System.Drawing.Point(352, 546);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Save.Location = new System.Drawing.Point(21, 546);
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(75, 23);
+            this.Save.TabIndex = 0;
+            this.Save.Text = "Save";
+            this.Save.UseVisualStyleBackColor = true;
+            this.Save.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblOutput
             // 
@@ -211,11 +212,22 @@ namespace GADE6122
             this.rtbMap.TabIndex = 8;
             this.rtbMap.Text = "";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(140, 546);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Load";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 581);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.rtbMap);
             this.Controls.Add(this.btnRight);
             this.Controls.Add(this.btnLeft);
@@ -224,7 +236,7 @@ namespace GADE6122
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.MemoPlayerInfo);
             this.Controls.Add(this.lblOutput);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Save);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -237,7 +249,7 @@ namespace GADE6122
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Save;
         private System.Windows.Forms.Label lblOutput;
         private System.Windows.Forms.RichTextBox MemoPlayerInfo;
         private System.Windows.Forms.Panel panel1;
@@ -251,6 +263,7 @@ namespace GADE6122
         private System.Windows.Forms.Button btnLeft;
         private System.Windows.Forms.Button btnRight;
         private System.Windows.Forms.RichTextBox rtbMap;
+        private System.Windows.Forms.Button button1;
     }
 }
 

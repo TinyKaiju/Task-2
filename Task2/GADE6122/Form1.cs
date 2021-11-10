@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace GADE6122
 {
     public partial class Form1 : Form
     {
         //Question 2.1
+        [Serializable]
         public abstract class Tile
         {
             protected int x;
@@ -42,18 +46,21 @@ namespace GADE6122
             }
         }
 
+        [Serializable]
         public class Obstacle : Tile
         {
             public Obstacle(int x, int y) : base(x, y)
             { }
         }
 
+        [Serializable]
         public class EmptyTile : Tile
         {
             public EmptyTile(int x, int y) : base(x, y)
             { }
         }
         //Question 2.2
+        [Serializable]
         public abstract class Character : Tile
         {
             protected int hp;
@@ -197,6 +204,7 @@ namespace GADE6122
         }
 
         //Question 2.4
+        [Serializable]
         public abstract class Enemy : Character
         {
             protected Random randNum = new Random();
@@ -220,6 +228,7 @@ namespace GADE6122
         }
 
         //Question 2.5
+        [Serializable]
         public class Goblin : Enemy
         {
             public Goblin(int x, int y) : base(x, y, 1, 10, 'G')//Constructor
@@ -276,6 +285,7 @@ namespace GADE6122
             }
         }
 
+        [Serializable]
         public class Mage : Enemy // Task2 Question 2.3
         {
             public Mage(int x, int y) : base(x, y, 5, 5, 'M')
@@ -301,6 +311,7 @@ namespace GADE6122
             }
 
         }
+        [Serializable]
         public class Hero : Character
         {
             public Hero(int x, int y, int hp) : base(x, y, 'H')//Constructor
@@ -332,6 +343,7 @@ namespace GADE6122
         }
 
         //Question 2.2.1
+        [Serializable]
         public abstract class Item : Tile
         {
             public Item(int x, int y) : base(x, y)
@@ -345,6 +357,7 @@ namespace GADE6122
         }
 
         //Qustion 2.2.2
+        [Serializable]
         public class Gold : Item
         {
             private int goldAmount;
@@ -367,6 +380,7 @@ namespace GADE6122
 
         }
 
+        [Serializable]
         public class Map
         {
 
@@ -716,6 +730,11 @@ namespace GADE6122
             {
                 return this.map;
             }
+
+            public void setMap(Map loadedMap)
+            {
+                map = loadedMap;
+            }
             public string getPlayerInfo()
             {
                 return map.getPlayerInfo();
@@ -783,6 +802,39 @@ namespace GADE6122
 
             
         }
+
+        [Serializable]
+        public class SaveLoad
+        {
+            public string savefilename = "data.KaijuAndBees";
+            private Map saver;
+            public BinaryFormatter formatter = new BinaryFormatter();
+            public void Save(Map map)
+            {
+                saver = map;
+                
+                var file = new FileStream(savefilename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                formatter.Serialize(file, saver);
+                file.Close();
+            }
+
+            public Map Load()
+            {
+                var file = new FileStream(savefilename, FileMode.Open, FileAccess.Read);
+                if (file != null)
+                {
+                    //if it does not open and read the file 
+                    saver = (Map)formatter.Deserialize(file);
+                    file.Close();
+                    return saver;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+        }
         GameEngine game;
         public Form1()
         {
@@ -793,11 +845,13 @@ namespace GADE6122
 
         private void button1_Click(object sender, EventArgs e)
         {
+            SaveLoad saver= new SaveLoad();
+            saver.Save(game.getMap());
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -895,6 +949,12 @@ namespace GADE6122
                 Enemy target = (Enemy)CmbEnemyList.Items[i];
                 MemoEnemyInfo.Text = game.getEnemyInfo(target);
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            SaveLoad loader = new SaveLoad();
+            game.setMap(loader.Load());
         }
     }
 }
