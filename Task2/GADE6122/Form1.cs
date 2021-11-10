@@ -59,11 +59,13 @@ namespace GADE6122
             protected int hp;
             protected int maxHp;
             protected int damage;
+            protected bool cornerVision = false;
             protected Tile[] visionTiles = new Tile[4]; //In ArrayVision = North, East, South, West
             public enum movementEnum { None, Up, Down, Left, Right };
 
             private char symbol;
 
+            protected int goldpurse;
             //Get methods
             public int getHp()
             {
@@ -86,6 +88,14 @@ namespace GADE6122
             public Character(int a, int b, char symbol) : base(a, b) // constructor
             {
                 this.symbol = symbol;
+                if (cornerVision == false)
+                {
+                    visionTiles = new Tile[4];
+                }
+                else
+                {
+                    visionTiles = new Tile[8];
+                }
             }
 
             public virtual void Attack(Character target)
@@ -152,14 +162,40 @@ namespace GADE6122
             //public abstract override ToString() { }
 
             //vision Setting
-            public void setVisionTiles(Tile upVis, Tile downVis, Tile rightVis, Tile leftVis)
+            public int getVisionSize()
             {
-                this.visionTiles[0] = upVis;
-                this.visionTiles[1] = downVis;
-                this.visionTiles[2] = rightVis;
-                this.visionTiles[3] = leftVis;
+                return visionTiles.Length;
             }
+            public void setVisionTiles(Tile[,] map)
+            {
+                this.visionTiles[0] = map[x - 1, y];
+                this.visionTiles[1] = map[x + 1, y];
+                this.visionTiles[2] = map[x, y + 1];
+                this.visionTiles[3] = map[x, y - 1];
+                if (cornerVision)
+                {
+                    this.visionTiles[4] = map[x - 1, y - 1];
+                    this.visionTiles[5] = map[x - 1, y + 1];
+                    this.visionTiles[6] = map[x + 1, y - 1];
+                    this.visionTiles[7] = map[x + 1, y + 1];
+                }
 
+
+            }
+            public void pickup(Item i)
+            {
+                Gold goldnum;
+                if ((this.x == i.getX()) && (this.y == i.getY()))
+                {
+                    goldnum = (Gold)i;
+                    goldpurse = goldpurse + goldnum.getGoldAmount();
+
+                }
+            }
+            public Tile getVisionTile(int i)
+            {
+                return visionTiles[i];
+            }
             public void damaged(int dmg)
             {
                 this.hp -= dmg;
@@ -169,8 +205,8 @@ namespace GADE6122
         //Question 2.4
         public abstract class Enemy : Character
         {
-            protected Random randNum;
-
+            protected Random randNum = new Random();
+            protected bool friendlyFire = false;
             public Enemy(int x, int y, int Damage, int Maxhp, char Symbol) : base(x, y, Symbol) //Constructor
             {
                 this.damage = Damage;
@@ -179,6 +215,10 @@ namespace GADE6122
                 this.type = tiletype.Enemy;
             }
 
+            public bool getFriendyFire()
+            {
+                return friendlyFire;
+            }
             public override string ToString()
             {
                 return "Goblin at [" + x + "," + y + "] (" + damage + ")"; // double check 
@@ -192,34 +232,49 @@ namespace GADE6122
             { }
             public override movementEnum ReturnMove(movementEnum move)
             {
-                move = movementEnum.None;
+                int possible = 4;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (visionTiles[i] is not EmptyTile || (visionTiles[i] is not Gold))
+                    {
+                        possible--;
+                    }
+                }
+
+                if (possible == 0)
+                {
+                    return movementEnum.None;
+                }
+                move = movementEnum.Up;
                 int direct = randNum.Next(4);
-                while (move == movementEnum.None)
+
+                Tile temp = new Obstacle(0, 0);
+                while ((temp is not EmptyTile) || temp is not Gold)
                 {
                     switch (direct)
                     {
                         case 0:
-                            type = visionTiles[0].getTiletype();
+                            temp = visionTiles[0];
                             move = movementEnum.Up;
                             break;
                         case 1:
-                            type = visionTiles[1].getTiletype();
+                            temp = visionTiles[1];
                             move = movementEnum.Down;
                             break;
                         case 2:
-                            type = visionTiles[2].getTiletype();
+                            temp = visionTiles[2];
                             move = movementEnum.Right;
                             break;
                         case 3:
-                            type = visionTiles[3].getTiletype();
+                            temp = visionTiles[3];
                             move = movementEnum.Left;
                             break;
+                        default:
+                            direct = randNum.Next(4);
+                            break;
                     }
-                    if ((type == tiletype.Hero) || (type == tiletype.Hero))
-                    {
-                        move = movementEnum.None;
-                        direct = randNum.Next(4);
-                    }
+                    direct = randNum.Next(4);
+
                 }
                 return move;
             }
@@ -229,7 +284,8 @@ namespace GADE6122
         {
             public Mage(int x, int y) : base(x, y, 5, 5, 'M')
             {
-
+                friendlyFire = true;
+                visionTiles = new Tile[8];
             }
 
             public override movementEnum ReturnMove(movementEnum move)
@@ -263,7 +319,7 @@ namespace GADE6122
             }
             public override string ToString()
             {
-                return ("Player Stats:\n HP: " + hp + "/" + maxHp + "\n Damage: " + damage + "\n Gold: " /* + Gold */ + "\n [" + getX() + "," + getY() + "]");
+                return ("Player Stats:\n HP: " + hp + "/" + maxHp + "\n Damage: " + damage + "\n Gold: " + goldpurse + "\n [" + getX() + "," + getY() + "]");
             }
 
             public override bool CheckRange(Character target)
@@ -278,12 +334,12 @@ namespace GADE6122
         }
 
         //Question 2.2.1
-        public abstract class Items : Tile
+        public abstract class Item : Tile
         {
-            public Items(int x, int y) : base(x, y)
+            public Item(int x, int y) : base(x, y)
             {
                 this.type = tiletype.Gold;
-            
+
             }
             public abstract string ToString();
             protected string ItemType;
@@ -291,20 +347,20 @@ namespace GADE6122
         }
 
         //Qustion 2.2.2
-        public class Gold : Items
+        public class Gold : Item
         {
-            private int goldNum;
-            private Random randomGoldNum = new Random();
+            private int goldAmount;
+            private Random randomGoldAmount = new Random();
 
-            public Gold(int x, int y, int NumGold ) : base(x, y) //Constructor
+            public Gold(int x, int y) : base(x, y) //Constructor
             {
-                int RanGold = randomGoldNum.Next(1, 5);
+                goldAmount = randomGoldAmount.Next(1, 5);
                 this.ItemType = "Gold";
             }
 
-            public int getGoldNum()
+            public int getGoldAmount()
             {
-                return this.goldNum;
+                return this.goldAmount;
             }
             public override string ToString()
             {
@@ -322,11 +378,12 @@ namespace GADE6122
             private int mapWidth;
             private int mapHeight;
             private Random randomNum = new Random();
-            private int gold;
-            private Gold[] goldArray;
+            //private int gold;
+            //private Gold[] goldArray;
+            private Item[] Items;
             public Map(int wMin, int wMax, int hMin, int hMax, int enemyNum, int goldNum)
             {
-                
+
 
                 mapWidth = randomNum.Next(wMin, wMax) + 2;
                 mapHeight = randomNum.Next(hMin, hMax) + 2;
@@ -345,13 +402,14 @@ namespace GADE6122
                     mapTiles[enemies[i].getX(), enemies[i].getY()] = enemies[i];
                 }
 
-                gold = goldNum;
-                goldArray = new Gold[goldNum];
+
+                Items = new Gold[goldNum];
                 for (int i = 0; i < goldNum; i++)
                 {
-                    goldArray[i] = (Gold)Create(Tile.tiletype.Gold);
-                    mapTiles[goldArray[i].getX(), goldArray[i].getY()] = goldArray[i];
+                    Items[i] = (Gold)Create(Tile.tiletype.Gold);
+                    mapTiles[Items[i].getX(), Items[i].getY()] = Items[i];
                 }
+
 
                 UpdateVision();
 
@@ -359,28 +417,11 @@ namespace GADE6122
 
             public void UpdateVision() // used to set vision after moving
             {
-                int x = player.getX();
-                int y = player.getY();
-
-                int up, down, right, left;
-                up = x - 1;
-                down = x + 1;
-                right = y + 1;
-                left = y - 1;
-
-                player.setVisionTiles(mapTiles[up, y], mapTiles[down, y], mapTiles[x, right], mapTiles[x, left]);
+                player.setVisionTiles(mapTiles);
                 for (int i = 0; i < enemies.Length; i++)
                 {
-                    x = enemies[i].getX();
-                    y = enemies[i].getY();
-                    up = x - 1;
-                    down = x + 1;
-                    right = y + 1;
-                    left = y - 1;
-
-                    enemies[i].setVisionTiles(mapTiles[up, y], mapTiles[down, y], mapTiles[x, right], mapTiles[x, left]);
+                    enemies[i].setVisionTiles(mapTiles);
                 }
-
             }
 
             private Tile Create(Tile.tiletype type)
@@ -397,7 +438,7 @@ namespace GADE6122
                 switch (type)  // create tile 
                 {
                     case Tile.tiletype.Hero:
-                        return new Hero(uniqueX, uniqueY, 10);
+                        return new Hero(uniqueX, uniqueY, 50);
                     case Tile.tiletype.Enemy:
                         int rand = randomNum.Next(2);
                         switch (rand) // Randomise enemy type
@@ -407,7 +448,7 @@ namespace GADE6122
                             default: return new EmptyTile(uniqueX, uniqueY);
                         }
                     case Tile.tiletype.Gold:
-                        return new Gold(uniqueX, uniqueY, gold);
+                        return new Gold(uniqueX, uniqueY);
                     default: return new EmptyTile(uniqueX, uniqueY);
                 }
             }
@@ -463,6 +504,8 @@ namespace GADE6122
 
                 mapTiles[oldX, oldY] = new EmptyTile(oldX, oldY);
                 mapTiles[getPlayerX(), getPlayerY()] = player;
+
+                UpdateVision();
             }
 
             public List<Enemy> getTargetEnemies() // Creates list of enemies in range of attack
@@ -472,7 +515,7 @@ namespace GADE6122
 
                 for (int t = 0; t < enemies.Length; t++)
                 {
-                    
+
                     if (player.CheckRange(enemies[t]))
                     {
                         enemyTargets.Add(enemies[t]);
@@ -484,7 +527,7 @@ namespace GADE6122
 
             public string tryAttack(Enemy target) // Check to see if attack is possible and successful
             {
-                List<Enemy> enemies= getTargetEnemies();
+                List<Enemy> enemies = getTargetEnemies();
                 if (enemies.Contains(target))
                 {
                     player.Attack(target);
@@ -511,12 +554,37 @@ namespace GADE6122
                 }
             }
 
+            public void tryEnemyAttack()
+            {
+                Enemy attacker;
+                for (int e = 0; e < enemies.Length; e++)
+                {
+                    attacker = enemies[e];
+                    for (int i = 0; i < attacker.getVisionSize(); i++)
+                    {
+                        if (attacker.getFriendyFire())
+                        {
+                            //switch (attackerattacker.getVisionTile(i).getType)
+                            //{
+                            //    case Hero: player player.damaged(attacker.getDamage());
+                            //        break;
+                            //    case Enemy: 
+                            //}
+                        }
+                        if (attacker.getVisionTile(i) is Hero)
+                        {
+                            player.damaged(attacker.getDamage());
+                        }
+                    }
+
+                }
+            }
             public void removeEnemy(Enemy target) // Removes enemy from array and resizes it
             {
                 int j = 0;
                 Enemy[] temp = new Enemy[enemies.Length - 1];
 
-                for ( int i = 0; i < enemies.Length; i++)
+                for (int i = 0; i < enemies.Length; i++)
                 {
                     if (enemies[i] != target)
                     {
@@ -538,16 +606,40 @@ namespace GADE6122
 
             public virtual string getEnemyInfo(Enemy target)
             {
-                return target.ToString() + "\nHP: " + Convert.ToString(target.getHp()) ;
+                return target.ToString() + "\nHP: " + Convert.ToString(target.getHp());
             }
+
+            public int getEnemyarraySize()
+            {
+                return enemies.Length;
+            }
+            public Enemy getEnemy(int i)
+            {
+                return enemies[i];
+            }
+
+            public void moveEnemies()
+            {
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    int oldX = enemies[i].getX();
+                    int oldY = enemies[i].getY();
+                    enemies[i].Move(enemies[i].ReturnMove(0));
+
+                    mapTiles[oldX, oldY] = new EmptyTile(oldX, oldY);
+                    mapTiles[enemies[i].getX(), enemies[i].getY()] = enemies[i];
+                    UpdateVision();
+                }
+            }
+
+
+
         }
 
         //Question 3.3
         public class GameEngine
         {
-            private const char heroChar = 'H';
-            private const char goblinChar = 'G';
-            private const char emptyChar = '#';
+            private const char emptyChar = ' ';
             private const char obstacleChar = 'X';
             private const char goldchar = '$';
             private Map map;
@@ -579,17 +671,23 @@ namespace GADE6122
                         break;
                 }
 
-                if (map.getMapTiles(x, y) is EmptyTile) // player can move
+                if (map.getMapTiles(x, y) is EmptyTile || map.getMapTiles(x, y) is Gold) // player can move
                 {
                     map.Move(moveType);
+                    moveEnemy();
+                    map.tryEnemyAttack();
                     return true;
                 }
                 else
                 {
                     return false; //nothing
                 }
+
             }
-            
+
+
+
+
             public string getPlayerInfo()
             {
                 return map.getPlayerInfo();
@@ -598,15 +696,20 @@ namespace GADE6122
             {
                 return map.getEnemyInfo(target);
             }
+
+            public void moveEnemy()
+            {
+                map.moveEnemies();
+            }
             public override string ToString()
             {
-         
+
                 string output = "";
                 for (int x = 0; x < map.getWidth(); x++)
                 {
                     for (int y = 0; y < map.getHeight(); y++)
                     {
-                        if (map.getMapTiles(x,y) is Gold)
+                        if (map.getMapTiles(x, y) is Gold)
                         {
                             output += '$';
                         }
@@ -633,7 +736,7 @@ namespace GADE6122
                 }
                 return output;
             }
-            
+
             public List<Enemy> getTargets()
             {
                 return map.getTargetEnemies();
@@ -642,8 +745,13 @@ namespace GADE6122
             public string tryAttack(Enemy target)
             {
                 return map.tryAttack(target);
+                map.tryEnemyAttack();
             }
 
+            public void EnemiesAtk()
+            {
+                map.tryEnemyAttack();
+            }
 
         }
         GameEngine game;
@@ -677,6 +785,7 @@ namespace GADE6122
         {
             game.MovePlayer(Character.movementEnum.Up);
             updateForm();
+
         }
 
         private void btnDown_Click(object sender, EventArgs e)
@@ -730,6 +839,8 @@ namespace GADE6122
                 int i = CmbEnemyList.SelectedIndex;
                 Enemy target = (Enemy)CmbEnemyList.Items[i];
                 lblOutput.Text = game.tryAttack(target);
+                game.EnemiesAtk();
+                MemoPlayerInfo.Text = game.getPlayerInfo();
                 rtbMap.Clear();
                 rtbMap.Text = game.ToString();
                 updateAttackList();

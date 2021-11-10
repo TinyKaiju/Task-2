@@ -36,3 +36,22 @@ C:\Users\Thoriso Tlale\Source\Repos\TinyKaiju\Task-2\Task2\GADE6122\obj\Debug\ne
 C:\Users\Thoriso Tlale\Source\Repos\TinyKaiju\Task-2\Task2\GADE6122\obj\Debug\net5.0-windows\ref\GADE6122.dll
 C:\Users\Thoriso Tlale\Source\Repos\TinyKaiju\Task-2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.pdb
 C:\Users\Thoriso Tlale\Source\Repos\TinyKaiju\Task-2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.genruntimeconfig.cache
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\GADE6122.exe
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\GADE6122.deps.json
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\GADE6122.runtimeconfig.json
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\GADE6122.runtimeconfig.dev.json
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\GADE6122.dll
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\ref\GADE6122.dll
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\bin\Debug\net5.0-windows\GADE6122.pdb
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.csproj.AssemblyReference.cache
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.Form1.resources
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.Properties.Resources.resources
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.csproj.GenerateResource.cache
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.AssemblyInfoInputs.cache
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.AssemblyInfo.cs
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.csproj.CoreCompileInputs.cache
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.dll
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\ref\GADE6122.dll
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.pdb
+C:\Users\Khyujo\Source\Repos\Task-2.2\Task2\GADE6122\obj\Debug\net5.0-windows\GADE6122.genruntimeconfig.cache
